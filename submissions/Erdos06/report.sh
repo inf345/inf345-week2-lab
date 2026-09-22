@@ -20,6 +20,7 @@ find "$dir" -type f -exec ls -ln {} + 2>/dev/null | \
 # three lines, each "<bytes> <path>", biggest first
 
 echo "EXECUTABLE:"
+find "$TARGET_DIR" -type f -perm -100 | sort || true
 # one path per line, alphabetical
 
 echo "EXTENSIONS:"
