@@ -9,8 +9,8 @@ set -euo pipefail
 
 dir="${1:?usage: report.sh <directory>}"
 
-echo "FILES: 0"
-echo "DIRS: 0"
+echo "FILES: $(find "$dir" -type f | wc -l | tr -d ' ')"
+echo "DIRS: $(find "$dir" -mindepth 1 -type d | wc -l | tr -d ' ')"
 
 echo "LARGEST:"
 # three lines, each "<bytes> <path>", biggest first
