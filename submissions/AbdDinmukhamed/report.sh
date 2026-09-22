@@ -21,5 +21,5 @@ echo "$(find "$dir" -type f -executable | sort)"
 # one path per line, alphabetical
 
 echo "EXTENSIONS:"
-echo "$(find "$dir" -type f | grep -E ".*\.[a-zA-Z0-9]*$" | sed -e 's/.*\(\.[a-zA-Z0-9]*\)$/\1/' | sort | uniq -c | sort -nr | head -5)"
+echo "$(find "$dir" -type f | awk -F. 'NF>1 {print "."$NF}' | sort | uniq -c | sort -nr | head -5)"
 # five lines, each "<count> <extension>", commonest first
