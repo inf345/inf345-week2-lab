@@ -24,4 +24,12 @@ find "$TARGET_DIR" -type f -perm -100 | sort || true
 # one path per line, alphabetical
 
 echo "EXTENSIONS:"
+find "$TARGET_DIR" -type f | \
+  grep -E '\.[^/.]+$' | \
+  sed -E 's/.*(\.[^/.]+)$/\1/' | \
+  sort | \
+  uniq -c | \
+  sort -nr -k1,1 -k2,2 | \
+  head -n 5 | \
+  awk '{print $1, $2}' || true
 # five lines, each "<count> <extension>", commonest first
