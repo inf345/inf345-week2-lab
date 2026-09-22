@@ -3,17 +3,17 @@ set -euo pipefail
 dir="${1:?usage: report.sh <directory>}"
 
 files=$(find "$dir" -type f | wc -l)
-dirs=$(find "$dir" -maxdepth 1 -mindepth 1 -type d | wc -l)
+dirs=$(find "$dir" -mindepth 1 -type d | wc -l)
 echo "FILES: $files"
 echo "DIRS: $dirs"
 
 
-listOfBigFilesLol=$(find "$dir" -type f  -printf "%s %p\n" | sort -nr | head -n 3)
+listOfBigFilesLol=$(find "$dir" -type f  -printf "%s %P\n" | sort -nr | head -n 3)
 echo "LARGEST:"
 echo "$listOfBigFilesLol"
 
 
-execMe=$(find "$dir" -type f -executable | sort)
+execMe=$(find "$dir" -type f -executable -printf "%P\n" | sort)
 echo "EXECUTABLE:"
 echo "$execMe"
 
