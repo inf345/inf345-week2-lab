@@ -14,17 +14,29 @@ echo "DIRS: $(find "$dir" -mindepth 1 -type d | wc -l | tr -d ' ')"
 
 echo "LARGEST:"
 find "$dir" -type f -exec ls -ln {} + 2>/dev/null | \
-  awk '{print $5, $NF}' | \
+  awk -v d="$dir" 'BEGIN{gsub(/\/$/, "", d)} {
+    path = $NF;
+    sub("^" d "/", "", path);
+    sub(/^\.\//, "", path);
+    print $5, path
+  }' | \
   sort -nr -k1,1 | \
   head -n 3 || true
 # three lines, each "<bytes> <path>", biggest first
 
 echo "EXECUTABLE:"
-find "$TARGET_DIR" -type f -perm -100 | sort || true
+find "$dir" -type f -perm -100 | \
+  awk -v d="$dir" 'BEGIN{gsub(/\/$/, "", d)} {
+    path = $0;
+    sub("^" d "/", "", path);
+    sub(/^\.\//, "", path);
+    print path
+  }' | \
+  sort || true
 # one path per line, alphabetical
 
 echo "EXTENSIONS:"
-find "$TARGET_DIR" -type f | \
+find "$dir" -type f | \
   grep -E '\.[^/.]+$' | \
   sed -E 's/.*(\.[^/.]+)$/\1/' | \
   sort | \
