@@ -13,6 +13,10 @@ echo "FILES: $(find "$dir" -type f | wc -l | tr -d ' ')"
 echo "DIRS: $(find "$dir" -mindepth 1 -type d | wc -l | tr -d ' ')"
 
 echo "LARGEST:"
+find "$dir" -type f -exec ls -ln {} + 2>/dev/null | \
+  awk '{print $5, $NF}' | \
+  sort -nr -k1,1 | \
+  head -n 3 || true
 # three lines, each "<bytes> <path>", biggest first
 
 echo "EXECUTABLE:"
