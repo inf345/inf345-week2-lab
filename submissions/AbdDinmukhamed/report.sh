@@ -13,11 +13,11 @@ echo "FILES: $(find "$dir" -type f | wc -l)"
 echo "DIRS: $(find "$dir" -mindepth 1 -type d | wc -l)"
 
 echo "LARGEST:"
-echo  "$(find "$dir" -type f -printf "%s %p\n" | sort -nr | head -3)"
+echo  "$(find "$dir" -type f -printf "%s %P\n" | sort -nr | head -3)"
 # three lines, each "<bytes> <path>", biggest first
 
 echo "EXECUTABLE:"
-echo "$(find "$dir" -type f -executable | sort)"
+echo "$(find "$dir" -type f -executable -printf "%P\n" | sort)"
 # one path per line, alphabetical
 
 echo "EXTENSIONS:"
